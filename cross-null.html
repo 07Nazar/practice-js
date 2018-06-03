@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset='UTF-8'>
+    <title>Крестики-нолики</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        #game {
+            width: 200px;
+            height: 200px;
+            background-color: orangered;
+        }
+
+        .block {
+            width: 50px;
+            height: 50px;
+            float: left;
+            border: 1px solid black;
+            box-sizing: border-box;
+            line-height: 50px;
+            text-align: center;
+            font-size: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="who">Ходят крестики</div>
+
+<div id="game">
+    <script>
+        for ( var i = 0; i < 16; i++ ) {
+            document.write("<div class='block'></div>");
+        }
+    </script>
+</div>
+
+<script>
+    var step = 0;
+    var items = ['X', 'O'];
+    document.getElementById('game').onclick = function (event) {
+        if (event.target.className == 'block') {
+            if (event.target.innerHTML == '') {
+                if (step % 2 == 0) {
+                    event.target.innerHTML = 'X';
+                    $("#who").html('Ходят нолики');
+                } else {
+                    event.target.innerHTML = 'O';
+                    $("#who").html('Ходят крестики');
+                }
+                step++;
+                checkWinner();
+            }
+        }
+    };
+    function checkWinner() {
+        var allblock = document.getElementsByClassName('block');
+        var win_combinations = [
+            [0, 1, 2, 3],
+            [4, 5, 6, 7],
+            [8, 9, 10, 11],
+            [12, 13, 14, 15],
+            [0, 4, 8, 12],
+            [1, 5, 9, 13],
+            [2, 6, 10, 14],
+            [3, 7, 11, 15],
+            [0, 5, 10, 15],
+            [3, 6, 9, 12]
+        ];
+        for (var i = 0; i < win_combinations.length; i++) {
+            var first = win_combinations[i][0];
+            var second = win_combinations[i][1];
+            var third = win_combinations[i][2];
+            var fourth = win_combinations[i][3];
+
+            var win_fields = [first, second, third, fourth];
+
+            for (var a = 0; a < items.length; a++) {
+                if (allblock[first].innerHTML == items[a] && allblock[second].innerHTML == items[a] && allblock[third].innerHTML == items[a] && allblock[fourth].innerHTML == items[a]) {
+                    $("#who").html('Выиграли X!');
+                    winParty();
+                    for (var k = 0; k < win_fields.length; k++) {
+                        allblock[win_fields[k]].style.border = '5px solid blue';
+                    }
+                }
+            }
+        }
+    }
+    function winParty() {
+        document.getElementById('game').onclick = function (event) {
+            if (event.target.className == 'block') {
+                event.preventDefault();
+            }
+        }
+    }
+</script>
+</body>
+</html>

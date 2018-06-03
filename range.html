@@ -1,0 +1,60 @@
+<label>Width: </label>
+<input type="radio" name="radio" value="width" onchange="chooseSize()"><br>
+<label>Height: </label>
+<input type="radio" name="radio" value="height" onchange="chooseSize()"><br>
+
+<div id="w" style="display: none"><input type="range" oninput="setRange()" id="width"></div>
+
+<div id="h" style="display: none"><input type="range" oninput="setRange()" id="height"></div>
+
+<div id="square" style="background-color: #0000FF"></div>
+
+<div id="showSize"></div>
+
+<script>
+
+    function chooseSize() {
+        var radio = document.getElementsByName('radio');
+        var w = document.getElementById('w');
+        var h = document.getElementById('h');
+        for (var k = 0; k < radio.length; k++) {
+            if (radio[k].checked) {
+                if (radio[k].value == 'width') {
+                    h.style.display = 'none';
+                    w.style.display = 'block';
+                } else {
+                    w.style.display = 'none';
+                    h.style.display = 'block';
+                }
+            }
+        }
+    }
+
+    function setRange() {
+        var radio = document.getElementsByName('radio');
+        var w = document.getElementById('w');
+        var h = document.getElementById('h');
+        var width = document.getElementById('width');
+        var height = document.getElementById('height');
+        var square = document.getElementById('square');
+        var showSize = document.getElementById('showSize');
+        for (var k = 0; k < radio.length; k++) {
+            if (radio[k].checked) {
+                if (radio[k].value == 'width') {
+                    h.style.display = 'none';
+                    w.style.display = 'block';
+                    square.style.width = width.value + '%';
+                    showSize.innerHTML = "Width: " + width.value + '%. Height: ' + height.value + '%.';
+                } else {
+                    w.style.display = 'none';
+                    h.style.display = 'block';
+                    square.style.height = height.value + '%';
+                    showSize.innerHTML = "Width: " + width.value + '%. Height: ' + height.value + '%.';
+                }
+            }
+        }
+    }
+
+
+
+</script>
